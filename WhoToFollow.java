@@ -1,4 +1,4 @@
-import java.io.IOException;
+  import java.io.IOException;
   import java.util.StringTokenizer;
   import java.util.*;
   import org.apache.hadoop.conf.Configuration;
@@ -22,12 +22,16 @@ import java.io.IOException;
        public void map(Object key, Text value, Context context ) throws IOException, InterruptedException {
           StringTokenizer itr = new StringTokenizer(value.toString());
               if (itr.countTokens() >= 2) {
-                   Text person = new Text();
-                   person.set(itr.nextToken());
+                   Text follower = new Text();
+                   follower.set(itr.nextToken());
                    while (itr.hasMoreTokens()) {
-                      Text follower = new Text();
-                      follower.set(itr.nextToken());
-                      context.write(follower, person);
+                     String followed1=itr.nextToken();
+                     Text followed=new Text(followed1);
+                      String s_already_followed1="-";
+                      String s_already_followed=s_already_followed1.concat(followed1);
+                      Text already_followed=new Text(s_already_followed);
+                      context.write(followed, follower);
+                      context.write(follower,already_followed);
                       }
                  }
          }
